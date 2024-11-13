@@ -46,7 +46,13 @@
  	<view class="container">
  		<view class="header">卖出价格计算</view>
  		<view class="input-group">
- 			<label for="sellRate">涨幅率 (%)</label>
+ 			<label for="buyType">卖出类型</label>
+ 			<picker mode="selector" :range="sellTypes" @change="updateSellType">
+ 				<view class="picker">{{ sellTypes[sellTypeIndex] }}</view>
+ 			</picker>
+ 		</view>
+ 		<view class="input-group">
+ 			<label>{{ sellRateLabel }}</label>
  			<input type="number" v-model="sellRate" placeholder="请输入涨幅率" @input="validateInput('sellRate')" />
  			<text v-if="errors.sellRate" class="error">请输入有效的百分比</text>
  		</view>
@@ -149,6 +155,8 @@
  				buyQuantity: 0,
  				realQuantity: 0,
  				buyFee: 0,
+ 				sellTypes: ['涨幅卖出', '跌幅卖出'],
+ 				sellTypeIndex: 0,
  				sellPrice: 0,
  				sellFee: 0,
  				finalPrincipal: 0,
@@ -164,13 +172,24 @@
  		},
  		computed: {
  			rateLabel() {
- 				return this.buyTypeIndex === 1 ? '涨幅率 (%)' : '跌幅率 (%)';
- 			}
+ 				return this.buyTypeIndex === 1 ? '涨幅买入率 (%)' : '跌幅买入率 (%)';
+ 			},
+ 			sellRateLabel() {
+ 				return this.sellTypeIndex === 0 ? '涨幅卖出率 (%)' : '跌幅卖出率 (%)';
+ 			},
  		},
  		methods: {
  			updateBuyType(e) {
- 				this.buyTypeIndex = e.detail.value; // 更新买入类型索引
- 				this.calculatePrices(); // 更新计算
+ 				// 更新买入类型索引
+ 				this.buyTypeIndex = e.detail.value;
+ 				// 更新计算
+ 				this.calculatePrices();
+ 			},
+ 			updateSellType(e) {
+ 				// 更新买入类型索引
+ 				this.sellTypeIndex = e.detail.value;
+ 				// 更新计算
+ 				this.calculatePrices();
  			},
  			validateInput(field) {
  				const value = parseFloat(this[field]);
@@ -223,7 +242,12 @@
  				this.buyQuantity = (principal / this.buyPrice).toFixed(0);
  				this.buyFee = (((0.08 / 100) * this.buyQuantity) * this.buyPrice).toFixed(10);
  				this.realQuantity = Math.round(this.buyQuantity - ((0.08 / 100) * this.buyQuantity));
- 				this.sellPrice = this.limitPrecision(openingPrice * (1 + (sellRate / 100)));
+
+ 				const _sellPrice = this.sellTypeIndex === 0 ?
+ 					openingPrice * (1 + (sellRate / 100)) :
+ 					openingPrice * (1 - (sellRate / 100));
+ 				this.sellPrice = this.limitPrecision(_sellPrice);
+
  				this.calculateResults(principal, this.sellPrice, this.realQuantity);
  			},
  			calculateResults(principal, sellPrice, realQuantity) {
