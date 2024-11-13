@@ -8,6 +8,7 @@
 		}
 	],
 	"globalStyle": {
+		"navigationStyle": "custom",
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "理财收入计算小工具",
 		"navigationBarBackgroundColor": "#000",

@@ -2,12 +2,12 @@
  	<view class="container">
  		<view class="input-group">
  			<label for="principal">本金</label>
- 			<input type="number" v-model="principal" placeholder="请输入本金" @input="validateInput('principal')" />
+ 			<input type="text" v-model="principal" placeholder="请输入本金" @input="validateInput('principal')" />
  			<text v-if="errors.principal" class="error">请输入有效的本金金额</text>
  		</view>
  		<view class="input-group">
  			<label for="openingPrice">开盘价</label>
- 			<input type="number" v-model="openingPrice" placeholder="请输入开盘价" @input="validateInput('openingPrice')" />
+ 			<input type="text" v-model="openingPrice" placeholder="请输入开盘价" @input="validateInput('openingPrice')" />
  			<text v-if="errors.openingPrice" class="error">请输入有效的开盘价</text>
  		</view>
  	</view>
@@ -22,24 +22,24 @@
  		</view>
  		<view class="input-group">
  			<label>{{ rateLabel }}</label>
- 			<input type="number" v-model="rate" placeholder="请输入涨幅率" @input="validateInput('rate')" />
+ 			<input type="text" v-model="rate" placeholder="请输入涨幅率" @input="validateInput('rate')" />
  			<text v-if="errors.rate" class="error">请输入有效的百分比</text>
  		</view>
  		<view class="input-group">
  			<label>买入价格</label>
- 			<input type="number" :value="buyPrice" readonly @click="copyToClipboard(buyPrice)" />
+ 			<input type="text" :value="buyPrice" readonly @click="copyToClipboard(buyPrice)" />
  		</view>
  		<view class="input-group">
  			<label>可买数量</label>
- 			<input type="number" :value="buyQuantity" readonly />
+ 			<input type="text" :value="buyQuantity" disabled />
  		</view>
  		<view class="input-group">
  			<label>买入手续费</label>
- 			<input type="number" :value="buyFee" readonly />
+ 			<input type="text" :value="buyFee" disabled />
  		</view>
  		<view class="input-group">
  			<label>实际数量</label>
- 			<input type="number" :value="realQuantity" readonly />
+ 			<input type="text" :value="realQuantity" disabled />
  		</view>
  	</view>
 
@@ -53,16 +53,16 @@
  		</view>
  		<view class="input-group">
  			<label>{{ sellRateLabel }}</label>
- 			<input type="number" v-model="sellRate" placeholder="请输入涨幅率" @input="validateInput('sellRate')" />
+ 			<input type="text" v-model="sellRate" placeholder="请输入涨幅率" @input="validateInput('sellRate')" />
  			<text v-if="errors.sellRate" class="error">请输入有效的百分比</text>
  		</view>
  		<view class="input-group">
  			<label>卖出价格</label>
- 			<input type="number" :value="sellPrice" readonly @click="copyToClipboard(sellPrice)" />
+ 			<input type="text" :value="sellPrice" readonly @click="copyToClipboard(sellPrice)" />
  		</view>
  		<view class="input-group">
  			<label>卖出手续费</label>
- 			<input type="number" :value="sellFee" readonly />
+ 			<input type="text" :value="sellFee" disabled />
  		</view>
  		<view class="result">
  			<text>最终收入：{{ finalPrincipal.toFixed(18) }}</text>
